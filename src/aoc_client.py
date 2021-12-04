@@ -46,13 +46,17 @@ class AocClient:
             with open(input_file_name, 'r') as input_file:
                 return input_file.read().splitlines()
 
-        downloaded = self.attempt_download_example(day)
-        print('Found the following example input:')
-        print('=====')
-        for line in downloaded:
-            print(line)
-        print('=====')
-        response = input('Is the above input correct? [Y]es use this input, [N]o I\'ll enter the input myself. ')
+        try:
+            downloaded = self.attempt_download_example(day)
+            print('Found the following example input:')
+            print('=====')
+            for line in downloaded:
+                print(line)
+            print('=====')
+            response = input('Is the above input correct? [Y]es use this input, [N]o I\'ll enter the input myself. ')
+        except:
+            print('Couldn\'t find example input for this day. Please enter it manually.')
+            response = 'n'
 
         if response.lower() == 'y':
             example_input = downloaded
