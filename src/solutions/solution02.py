@@ -4,4 +4,18 @@ from solutions.solution import Solution
 class Solution02(Solution):
 
     def solve(self, input_text):
-        pass
+        depth = 0
+        horizontal_position = 0
+
+        for instruction in input_text:
+            action, step = instruction.split(' ')
+            step = int(step)
+
+            match action:
+                case 'forward':
+                    horizontal_position += step
+                case 'down':
+                    depth += step
+                case 'up':
+                    depth -= step
+        return depth * horizontal_position
