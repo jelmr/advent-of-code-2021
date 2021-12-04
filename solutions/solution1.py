@@ -1,13 +1,9 @@
 from solutions.solution import Solution
-import time
+from itertools import pairwise
+from more_itertools import quantify
+
 
 class Solution1(Solution):
 
-    def __init__(self):
-        print('its me, solution 1')
-
     def solve(self, input_text):
-        print('Solving...')
-        time.sleep(2)
-        print('Done!')
-
+        return quantify(pairwise(input_text), lambda pair: int(pair[1]) > int(pair[0]))

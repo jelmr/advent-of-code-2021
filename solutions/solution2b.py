@@ -1,11 +1,12 @@
-from solutions.solution import Solution
+from solutions.solution2 import Solution2
 
 
-class Solution2(Solution):
+class Solution2B(Solution2):
 
     def solve(self, input_text):
         depth = 0
         horizontal_position = 0
+        aim = 0
 
         for instruction in input_text:
             action, step = instruction.split(' ')
@@ -14,8 +15,9 @@ class Solution2(Solution):
             match action:
                 case 'forward':
                     horizontal_position += step
+                    depth += aim * step
                 case 'down':
-                    depth += step
+                    aim += step
                 case 'up':
-                    depth -= step
+                    aim -= step
         return depth * horizontal_position
