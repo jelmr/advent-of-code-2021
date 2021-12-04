@@ -79,7 +79,6 @@ class AocClient:
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.find('pre').find('code').text.splitlines()
 
-
     def submit(self, day, b, answer):
         session_cookie = self.get_session_cookie()
 
@@ -87,16 +86,17 @@ class AocClient:
             'level': 2 if b else 1,
             'answer': answer
         }
-        response = requests.post(f'{api_base}/{day}/answer', cookies={'session': session_cookie}, data=data)
+        response = requests.post(f'{API_BASE}/{day}/answer', cookies={'session': session_cookie}, data=data)
 
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.find('main').find('article').find('p').text
 
-    def get_session_cookie(self):
+    @staticmethod
+    def get_session_cookie():
         config = configparser.ConfigParser()
         config.read(CONFIG_FILE)
 
-        if not 'aoc' in config or not 'sessionCookie' in config['aoc']:
+        if 'aoc' not in config or 'sessionCookie' not in config['aoc']:
             print('You\'ll need to provide your session cookie for adventofcode.com. In your webbrowser: F12 > '
                   'Storage/Application > Cookies.')
             session_cookie = input('Please enter your session cookie: ')
