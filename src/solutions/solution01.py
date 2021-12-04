@@ -1,7 +1,7 @@
 from solutions.solution import Solution
 
 
-class Solution2(Solution):
+class Solution01(Solution):
 
     def solve(self, input_text):
         pass

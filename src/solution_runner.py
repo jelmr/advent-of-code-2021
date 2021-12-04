@@ -14,7 +14,8 @@ class SolutionRunner:
 
     @staticmethod
     def get_solution(day, b):
-        solution_class_name = f'solutions.solution{day}b.Solution{day}B' if b else f'solutions.solution{day}.Solution{day}'
+        day_number = str(day).zfill(2)
+        solution_class_name = f'solutions.solution{day_number}b.Solution{day_number}B' if b else f'solutions.solution{day_number}.Solution{day_number}'
         solution_class = locate(solution_class_name)
         if not solution_class:
             raise Exception(f'No solution for day {day}, expected \'{solution_class_name}\' to exist.')

@@ -1,6 +1,6 @@
 from solutions.solution import Solution
 
 
-class Solution6(Solution):
+class Solution08(Solution):
     def solve(self, input_text):
         pass
