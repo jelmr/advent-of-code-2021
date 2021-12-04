@@ -46,21 +46,39 @@ class AocClient:
             with open(input_file_name, 'r') as input_file:
                 return input_file.read().splitlines()
 
-        # Prompt user for the example input
-        print('Paste example input:  (Ctrl-D / Ctrl-Z to terminate)')
-        example_input = []
-        while True:
-            try:
-                line = input()
-            except EOFError:
-                break
-            example_input.append(line)
+        downloaded = self.attempt_download_example(day)
+        print('Found the following example input:')
+        print('=====')
+        for line in downloaded:
+            print(line)
+        print('=====')
+        response = input('Is the above input correct? [Y]es use this input, [N]o I\'ll enter the input myself. ')
+
+        if response.lower() == 'y':
+            example_input = downloaded
+        else:
+            # Prompt user for the example input
+            print('Paste example input:  (Ctrl-D / Ctrl-Z to terminate)')
+            example_input = []
+            while True:
+                try:
+                    line = input()
+                except EOFError:
+                    break
+                example_input.append(line)
 
         # Write it to file for next time
         with open(input_file_name, 'w+') as input_file:
             input_file.write('\n'.join(example_input))
 
         return example_input
+
+    def attempt_download_example(self, day):
+        session_cookie = self.get_session_cookie()
+        response = requests.get(f'{API_BASE}/{day}', cookies={'session': session_cookie})
+        soup = BeautifulSoup(response.text, 'html.parser')
+        return soup.find('pre').find('code').text.splitlines()
+
 
     def submit(self, day, b, answer):
         session_cookie = self.get_session_cookie()
@@ -69,7 +87,7 @@ class AocClient:
             'level': 2 if b else 1,
             'answer': answer
         }
-        response = requests.post(f'{API_BASE}/{day}/answer', cookies={'session': session_cookie}, data=data)
+        response = requests.post(f'{api_base}/{day}/answer', cookies={'session': session_cookie}, data=data)
 
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.find('main').find('article').find('p').text
