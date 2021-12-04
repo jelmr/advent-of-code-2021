@@ -10,7 +10,7 @@ class SolutionRunner:
         self.b = b
         self.example = example
         self.aocClient = AocClient()
-        self.solution = SolutionRunner.get_solution(b)
+        self.solution = self.get_solution(day, b)
 
     @staticmethod
     def get_solution(day, b):
