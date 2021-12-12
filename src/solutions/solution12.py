@@ -1,5 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from functools import cache
 
 from solutions.solution import Solution
 
@@ -14,10 +15,15 @@ class Solution12(Solution):
         def __hash__(self):
             return hash(self.name)
 
+    class HashableDict(defaultdict):
+        def __hash__(self):
+            return hash(tuple(self.items()))
+
     def solve(self, input_text):
         caves = self.parse_input(input_text)
-        return self.count_paths(caves['start'], caves['end'], defaultdict(int), False)
+        return self.count_paths(caves['start'], caves['end'], Solution12.HashableDict(int), False)
 
+    @cache
     def count_paths(self, current, target, num_visits, bonus_visit_available):
         if current.is_small:
             if num_visits[current] >= 1:
