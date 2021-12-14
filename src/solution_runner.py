@@ -1,6 +1,7 @@
 import argparse
 from pydoc import locate
 from aoc_client import AocClient
+from datetime import datetime
 
 
 class SolutionRunner:
@@ -27,7 +28,10 @@ class SolutionRunner:
         else:
             input_data = self.aocClient.get_input(self.day)
 
+        start = datetime.now()
         result = self.solution.solve(input_data)
+        duration = datetime.now() - start
+        print(f'Execution time: {duration}')
         print(f'OUTPUT:')
         print('>>>', result)
 
